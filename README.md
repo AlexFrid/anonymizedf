@@ -25,7 +25,7 @@ an = anonymize(df)
 
 # Select what data you want to anonymize and your preferred style
 
-# Option 1 - Method chaining
+# Option 1 - method chaining
 fake_df = (
     an
     .fake_names("Customer Name", chaining=True)
