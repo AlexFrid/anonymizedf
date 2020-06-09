@@ -1,4 +1,4 @@
-# Anonymize df: a convenient way to anonymize your data for analytics
+# Anonymize df: a convenient way to anonymize your data
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
