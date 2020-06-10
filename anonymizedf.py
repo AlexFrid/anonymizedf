@@ -152,7 +152,9 @@ class anonymize(object):
             else:
                 return self._df
 
-    def fake_decimal_numbers(self, original_decimal_number, chaining=False):
+    def fake_decimal_numbers(
+        self, original_decimal_number, group_by=None, chaining=False
+    ):
 
         """Takes the min and max of the original_decimal_number column
         and generates as many decimal numbers in that range as are in
@@ -172,14 +174,42 @@ class anonymize(object):
             return self
         else:
 
-            decimal_numbers = self._df[original_decimal_number]
+            if group_by is not None:
+                dff = self._df[[group_by, original_decimal_number]]
 
-            decimal_number_dict = {
-                number: round(
-                    random.uniform(min(decimal_numbers), max(decimal_numbers)), 2
+                grouped_numbers = (
+                    self._df.groupby(group_by)[original_decimal_number]
+                    .agg([min, max])
+                    .reset_index()
                 )
-                for number in decimal_numbers
-            }
+
+                # just for dev purpose now to check if it ran
+                print(f"Grouped by {group_by}")
+
+                decimal_number_dict = {}
+
+                for i in range(len(grouped_numbers[group_by])):
+                    decimal_number_dict_part = {
+                        number: round(
+                            random.uniform(
+                                grouped_numbers["min"][i], grouped_numbers["max"][i]
+                            ),
+                            2,
+                        )
+                        for number in dff[
+                            dff[group_by] == grouped_numbers[group_by][i]
+                        ][original_decimal_number]
+                    }
+                    decimal_number_dict.update(decimal_number_dict_part)
+            else:
+                decimal_numbers = self._df[original_decimal_number]
+
+                decimal_number_dict = {
+                    number: round(
+                        random.uniform(min(decimal_numbers), max(decimal_numbers)), 2
+                    )
+                    for number in decimal_numbers
+                }
 
             self._df[f"Fake_{original_decimal_number}"] = [
                 decimal_number_dict[number]
