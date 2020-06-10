@@ -89,7 +89,7 @@ class anonymize(object):
             else:
                 return self._df
 
-    def fake_whole_numbers(self, original_whole_number, chaining=False):
+    def fake_whole_numbers(self, original_whole_number, group_by=None, chaining=False):
 
         """Takes the min and max of the original_whole_number column
         and generates as many whole numbers in that range as are in
@@ -109,12 +109,39 @@ class anonymize(object):
             return self
         else:
 
-            whole_numbers = self._df[original_whole_number]
+            if group_by is not None:
+                dff = self._df[[group_by, original_whole_number]]
 
-            whole_number_dict = {
-                number: fake.random_int(min=min(whole_numbers), max=max(whole_numbers))
-                for number in whole_numbers
-            }
+                grouped_numbers = (
+                    self._df.groupby(group_by)[original_whole_number]
+                    .agg([min, max])
+                    .reset_index()
+                )
+
+                # just for dev purpose now to check if it ran
+                print(f"Grouped by {group_by}")
+
+                whole_number_dict = {}
+
+                for i in range(len(grouped_numbers[group_by])):
+                    whole_number_dict_part = {
+                        number: fake.random_int(
+                            min=grouped_numbers["min"][i], max=grouped_numbers["max"][i]
+                        )
+                        for number in dff[
+                            dff[group_by] == grouped_numbers[group_by][i]
+                        ][original_whole_number]
+                    }
+                    whole_number_dict.update(whole_number_dict_part)
+            else:
+                whole_numbers = self._df[original_whole_number]
+
+                whole_number_dict = {
+                    number: fake.random_int(
+                        min=min(whole_numbers), max=max(whole_numbers)
+                    )
+                    for number in whole_numbers
+                }
 
             self._df[f"Fake_{original_whole_number}"] = [
                 whole_number_dict[number] for number in self._df[original_whole_number]
