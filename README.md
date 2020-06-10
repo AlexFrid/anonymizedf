@@ -25,7 +25,15 @@ an = anonymize(df)
 
 # Select what data you want to anonymize and your preferred style
 
-# Option 1 - method chaining
+# Option 1 - just updates df
+an.fake_names("Customer Name")
+an.fake_ids("Customer ID")
+an.fake_whole_numbers("Loyalty Reward Points")
+an.fake_categories("Segment")
+an.fake_dates("Date")
+an.fake_decimal_numbers("Fraction")
+
+# Option 2 - method chaining
 fake_df = (
     an
     .fake_names("Customer Name", chaining=True)
@@ -37,13 +45,14 @@ fake_df = (
     .show_data_frame()
 )
 
-# Option 2 - multiple assignments
+# Option 3 - multiple assignments
 fake_df = an.fake_names("Customer Name")
 fake_df = an.fake_ids("Customer ID")
 fake_df = an.fake_whole_numbers("Loyalty Reward Points")
 fake_df = an.fake_categories("Segment")
 fake_df = an.fake_dates("Date")
 fake_df = an.fake_decimal_numbers("Fraction")
+
 
 fake_df.to_csv("fake_customers.csv", index=False)
 

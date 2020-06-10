@@ -40,7 +40,7 @@ class anonymize(object):
         # you might be wondering why this if statement (and others like it) are here
         # its because this is required as a "None" value by interface tools
         # one example being the Alteryx interface designer
-        if original_name == "":
+        if original_name == []:
             print("No name column selected")
             return self
         else:
@@ -71,7 +71,7 @@ class anonymize(object):
             or anonymize object if chaining is true
         """
 
-        if original_id == "":
+        if original_id == []:
             print("No id column selected")
             return self
         else:
@@ -104,7 +104,7 @@ class anonymize(object):
             or anonymize object if chaining is true
         """
 
-        if original_whole_number == "":
+        if original_whole_number == []:
             print("No whole number column selected")
             return self
         else:
@@ -140,7 +140,7 @@ class anonymize(object):
             or anonymize object if chaining is true
         """
 
-        if original_decimal_number == "":
+        if original_decimal_number == []:
             print("No decimal number column selected")
             return self
         else:
@@ -179,7 +179,7 @@ class anonymize(object):
             or anonymize object if chaining is true
         """
 
-        if original_date == "":
+        if original_date == []:
             print("No date column selected")
             return self
         else:
@@ -215,7 +215,7 @@ class anonymize(object):
             or anonymize object if chaining is true
         """
 
-        if original_category == "":
+        if original_category == []:
             print("No category column selected")
             return self
         else:
