@@ -1,5 +1,7 @@
 # Anonymize df: a convenient way to anonymize your data for analytics
-
+![PyPI](https://img.shields.io/pypi/v/anonymizedf)
+![PyPI - Status](https://img.shields.io/pypi/status/anonymizedf)
+![PyPI - License](https://img.shields.io/pypi/l/anonymizedf)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## What is it?
