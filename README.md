@@ -1,4 +1,4 @@
-# Anonymize df: a convenient way to anonymize your data
+# Anonymize df: a convenient way to anonymize your data for analytics
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -8,8 +8,22 @@
 fake data from a Pandas DataFrame.
 
 ## What are the expected use cases / why was this made?
-- You're hiring consultants to work on your data but need to anonymize it first (GDPR and all that)
+- You're hiring consultants to work on your data but need to anonymize it first
 - You're a consultant and created something great that you want to make into a template
+
+## Installation
+
+You can install anonymizedf using pip:
+```bash
+pip install anonymizedf
+```
+This will also try downloading the tableau hyper api and pandas packages
+if you don't have them already.
+
+If you don't want to use pip you can also download this repository and execute:
+```bash
+python setup.py install
+```
 
 ## Example usage
 
@@ -18,14 +32,14 @@ import pandas as pd
 from anonymizedf import anonymize
 
 # Import the data
-df = pd.read_csv("customers.csv")
+df = pd.read_csv("https://query.data.world/s/shcktxndtu3ojonm46tb5udlz7sp3e")
 
 # Prepare the data to be anonymized
 an = anonymize(df)
 
 # Select what data you want to anonymize and your preferred style
 
-# Option 1 - just updates df
+# Example 1 - just updates df
 an.fake_names("Customer Name")
 an.fake_ids("Customer ID")
 an.fake_whole_numbers("Loyalty Reward Points")
@@ -33,7 +47,7 @@ an.fake_categories("Segment")
 an.fake_dates("Date")
 an.fake_decimal_numbers("Fraction")
 
-# Option 2 - method chaining
+# Example 2 - method chaining
 fake_df = (
     an
     .fake_names("Customer Name", chaining=True)
@@ -45,7 +59,7 @@ fake_df = (
     .show_data_frame()
 )
 
-# Option 3 - multiple assignments
+# Example 3 - multiple assignments
 fake_df = an.fake_names("Customer Name")
 fake_df = an.fake_ids("Customer ID")
 fake_df = an.fake_whole_numbers("Loyalty Reward Points")
@@ -53,8 +67,15 @@ fake_df = an.fake_categories("Segment")
 fake_df = an.fake_dates("Date")
 fake_df = an.fake_decimal_numbers("Fraction")
 
-
 fake_df.to_csv("fake_customers.csv", index=False)
+
+# One thing to note is that you can't directly pass in a list of columns.
+# If you want to apply the same function to multiple columns there are many ways to do that.
+
+# Example 4 - for multiple columns
+
+for column in column_list:
+    an.fake_categories(column)
 
 ```
 
