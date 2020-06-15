@@ -1,4 +1,5 @@
 import random
+
 from faker import Faker
 
 # select localisation for fake data
